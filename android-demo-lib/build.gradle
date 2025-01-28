@@ -49,7 +49,9 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 dependencies {
-    implementation files('lib/test-lib-release.aar')
+  //  implementation files('lib/test-lib-release.aar')
+    api project(':test-lib')
+
     implementation libs.appcompat
     implementation libs.material
     testImplementation libs.junit

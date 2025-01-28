@@ -44,14 +44,12 @@ java {
         languageVersion = JavaLanguageVersion.of(17)
     }
 }
-
-
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 }
 dependencies {
-
+    implementation files('lib/test-lib-release.aar')
     implementation libs.appcompat
     implementation libs.material
     testImplementation libs.junit
@@ -64,9 +62,16 @@ publishing {
             groupId = 'com.github.mahmutihsandal'
             artifactId = 'android-demo-lib'
             version = "1.0"
+            artifact("$buildDir/outputs/aar/android-demo-lib-release.aar")
             pom {
-                description = 'Android Lib'
-            }
+                withXml {
+                    asNode().appendNode('dependencies').appendNode('dependency').with {
+                        appendNode('groupId', 'com.cynte')  // Bağımlı AAR'ın groupId'si
+                        appendNode('artifactId', 'test-lib.aar')  // Bağımlı AAR'ın artifactId'si
+                        appendNode('version', '1.0.0')  // Bağımlı AAR'ın versiyonu
+                        appendNode('scope', 'compile')  // Bağımlılık kapsamı
+                    }
+                }            }
         }
     }
     repositories {
